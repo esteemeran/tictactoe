@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Янв 06 2023 г., 09:58
+-- Время создания: Янв 06 2023 г., 11:42
 -- Версия сервера: 8.0.30
 -- Версия PHP: 7.2.34
 
@@ -75,13 +75,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT для таблицы `rooms`
 --
 ALTER TABLE `rooms`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
