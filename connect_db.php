@@ -39,7 +39,7 @@ function connect_it()
 	$link = mysqli_connect($servername, $username, $password, $db);
 	$link -> set_charset("utf-8");
 	if (! $link)
-	{ $error = message('Не могу соедениться с сервером'); return false; }
+	{ echo message('Не могу соедениться с сервером'); return false; }
 	return $link;
 }
 
@@ -167,12 +167,13 @@ function user_all()
 
 //****************************************************************
 //комнаты
+//по умолчанию оба игрока = создавший комнату
 function room_create()
 {
 	$b_res = false;
     $link = connect_it();
 	$id = $_SESSION['user_id'];
-	$query = "INSERT INTO `rooms`(`player1`) VALUES ('$id')";
+	$query = "INSERT INTO `rooms`(`player1`, `player2`) VALUES ('$id', '$id')";
 	$result1 = $link -> query($query);
     if (! $result1) { echo message($link -> error);}
     else { 
@@ -225,4 +226,20 @@ function room_delete($room_id)
 	return $b_res;
 }
 
+//доделать таблицу комнат и таблицу рекордов
+function room_all($free_only = false)
+{
+	$res = [];
+    $link = connect_it();
+    //$query = " SELECT *, CONCAT(`player1`=`player2`) AS free  FROM `rooms` ";
+	SELECT `rooms`.`id` as room_id, `player1`.`id` AS player1_id, `player1`.`login` AS player1_name,`player2`.`id` AS player2_id,`player2`.`login` AS player2_name, `created`, CONCAT(`player1`.`id`=`player2`.`id`) AS free FROM `user`,`rooms` WHERE 1
+	if($free_only) $query.= "WHERE `player1` = `player2`";
+        //echo "<font color=green> Запрос: </font>" . $query;
+    $result1 = $link -> query($query);
+    if (! $result1) { echo message($link -> error); return false;}
+    else $res = $result1->fetch_all();
+    mysqli_close($link);
+    mysqli_free_result($result1);
+	return $res;
+}
 ?>
