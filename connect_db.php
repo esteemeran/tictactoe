@@ -150,11 +150,13 @@ function user_delete($id)
 	return $b_res;
 }
 
-function user_all()
+function user_all($record_order = false)
 {
 	$res = [];
     $link = connect_it();
-    $query = " SELECT * FROM `user`";
+    $query = " SELECT * FROM `user` ORDER BY ";
+	if($record_order) $query.= "`win` ASC, `draw` ASC, `lose` DESC, ";
+	$query.= "`login` ASC";
         //echo "<font color=green> Запрос: </font>" . $query;
     $result1 = $link -> query($query);
     if (! $result1) { echo message($link -> error); return false;}
@@ -163,7 +165,6 @@ function user_all()
     mysqli_free_result($result1);
 	return $res;
 }
-
 
 //****************************************************************
 //комнаты
@@ -226,14 +227,13 @@ function room_delete($room_id)
 	return $b_res;
 }
 
-//доделать таблицу комнат и таблицу рекордов
 function room_all($free_only = false)
 {
 	$res = [];
     $link = connect_it();
-    //$query = " SELECT *, CONCAT(`player1`=`player2`) AS free  FROM `rooms` ";
-	SELECT `rooms`.`id` as room_id, `player1`.`id` AS player1_id, `player1`.`login` AS player1_name,`player2`.`id` AS player2_id,`player2`.`login` AS player2_name, `created`, CONCAT(`player1`.`id`=`player2`.`id`) AS free FROM `user`,`rooms` WHERE 1
-	if($free_only) $query.= "WHERE `player1` = `player2`";
+    $query = "SELECT `rooms`.`id` as room_id, `player1`.`id` AS player1_id, `player1`.`login` AS player1_name,`player2`.`id` AS player2_id,`player2`.`login` AS player2_name, `created`, CONCAT(`player1`.`id`=`player2`.`id`) AS free FROM `user`,`rooms` "
+	if($free_only) $query.= "WHERE `player1` = `player2` ";
+	else $query.= " Order by `free` DESC";
         //echo "<font color=green> Запрос: </font>" . $query;
     $result1 = $link -> query($query);
     if (! $result1) { echo message($link -> error); return false;}
