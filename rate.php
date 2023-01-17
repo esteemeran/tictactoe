@@ -1,6 +1,6 @@
 <?php
 if (isset($_REQUEST[session_name()])) session_start();
-$page = 'index';
+$page = 'rate';
 ?>
 
 <!DOCTYPE HTML>
