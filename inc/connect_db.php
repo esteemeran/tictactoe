@@ -105,15 +105,26 @@ function user_pswd($login, $pswd)
 	$b_res = false;
 	$link = connect_it();
 	$pswd = pswd_in_db($pswd);
-	$query = "UPDATE `user` SET `pswd` = '$pswd' WHERE `login` = '$login'";
+ mysqli_free_result($result);
+		$query = "UPDATE `user` SET `pswd` = '$pswd' WHERE `login` = '$login'";
 	$result = $link -> query($query);
     if (! $result) { echo message($link -> error);}
     else { echo message("Выполнено"); $b_res = true;}
 	mysqli_close($link);
-    mysqli_free_result($result);
-	return $b_res;
+   return $b_res;
 }
-
+function user_update($login, $win, $draw,$lose)
+{
+	$b_res = false;
+	$link = connect_it();
+ mysqli_free_result($result);
+		$query = "UPDATE `user` SET `win` = '$win', `draw` = '$draw', `lose` = '$lose' WHERE `login` = '$login'";
+	$result = $link -> query($query);
+    if (! $result) { echo message($link -> error);}
+    else { echo message("Выполнено"); $b_res = true;}
+	mysqli_close($link);
+   return $b_res;
+}
 function user_show()
 {
     $obj_res = {};
